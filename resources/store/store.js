@@ -1,6 +1,7 @@
 import {createStore} from "vuex";
 import search from "./search/search.js";
 import posts from "./posts/posts.js";
+import auth from "./auth/auth.js";
 
 const mutations = {
     SET_USER(state, payload) {
@@ -29,7 +30,8 @@ const store = createStore({
     mutations,
     modules: {
         search,
-        posts
+        posts,
+        auth
     }
 
 })

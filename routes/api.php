@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\AuthContoller;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Resources\PostCollection;
@@ -42,32 +43,23 @@ Route::controller(PostController::class)
 
     });
 
-Route::get('/search/random/users', function () {
-    return DB::table('users')
-        ->select('*')
-        ->limit(5)
-        ->inRandomOrder()
-        ->get();
+Route::controller(AuthContoller::class)
+    ->group(function() {
+        Route::post('/auth/login', 'login');
+        Route::post('/auth/register', 'register');
+        Route::get('/auth/get', 'get');
 });
-
-Route::post('/auth', function () {
-
-    auth()->loginUsingId(1);
-});
-
 
 Route::get('/profile/user/{slug}', function ($slug) {
     $user = User::whereSlug($slug)->get();
     return $user;
 });
 
-Route::get('/auth/check', function () {
-    if (auth('api')->check()) {
-        return 'ok!';
-    } else {
-        return 'unauthorized';
-    }
-});
+Route::post('/auth/check', function () {
+    return response()->json(['status' => 'Authorized'], 200);
+})->middleware('auth:sanctum');
+
+
 
 
 
