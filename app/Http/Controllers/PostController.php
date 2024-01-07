@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Models\PostImage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
 
 
 class PostController extends Controller

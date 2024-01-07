@@ -35,6 +35,15 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function createApiToken(): string
+    {
+        $token = str()->random(64);
+        $this->api_token = $token;
+        $this->save();
+
+        return $token;
+    }
+
     /**
      * The attributes that should be cast.
      *

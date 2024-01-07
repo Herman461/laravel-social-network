@@ -32,11 +32,13 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function users(): BelongsToMany {
+    public function users(): BelongsToMany
+    {
         return $this->belongsToMany(User::class);
     }
 
-    public function images(): HasMany {
+    public function images(): HasMany
+    {
         return $this->hasMany(PostImage::class);
     }
 }
