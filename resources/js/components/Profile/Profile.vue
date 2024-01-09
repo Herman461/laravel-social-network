@@ -2,9 +2,17 @@
     <div class="bg-black min-h-full min-h-screen">
         <base-header />
 
-        <main class="md:container flex mx-auto">
+        <main class="md:container flex mx-auto pt-5">
             <base-sidebar />
-            <div>
+            <div class="flex-auto ps-8" v-if="!isLoading">
+                <div class="relative">
+                    <ProfileBanner />
+                    <ProfileAvatar />
+                </div>
+                <div class="info pt-6">
+                    <div class="pl-48 text-white text-lg">{{login}}</div>
+
+                </div>
                 <div v-for="post in posts" class="post mb-8 last:mb-0 bg-gray-950 p-3 rounded-lg">
                     <div class="flex">
                         <div class="mr-2 w-14 h-14 inline-flex items-end overflow-hidden justify-center bg-white rounded-full border-2 border-violet">
@@ -56,27 +64,45 @@
 <script setup>
 
 import BaseHeader from "../Header/Header.vue";
-import {useStore} from "vuex";
 import {computed} from "vue";
 import types from "../../../store/posts/types.js";
-import FavoriteIcon from './icons/favorite.svg?component';
+import profileTypes from "../../../store/profile/types.js";
+import FavoriteIcon from '../Pages/icons/favorite.svg?component';
+
+
 import { useRoute } from 'vue-router'
 
 import BaseSidebar from "../common/BaseSidebar.vue";
+import ProfileAvatar from "./components/ProfileAvatar.vue";
+import ProfileBanner from "./components/ProfileBanner.vue";
+import store from "../../../store/store.js";
 
-const store = useStore()
-const route = useRoute()
 
 
 const posts = computed(() => store.state.posts.posts)
+const isLoading = computed(() => store.state.profile.isLoading)
+const login = computed(() => store.state.profile.user.name)
 
-store.dispatch('posts/' + types.GET_POSTS, {slug: route.params.slug ?? '', page: 1})
+const route = useRoute()
+const slug = route.params.slug
 
-const createDate = (date) => {
-    const fullDate = new Date(date)
 
-    return fullDate.getDate() + ' Oct. ' + fullDate.getFullYear()
+if (!store.state.profile.user.name) {
+    store.dispatch('profile/' + profileTypes.UPLOAD_USER, {slug})
+
 }
+
+
+
+
+//
+// store.dispatch('posts/' + types.GET_POSTS, {slug: route.params.slug ?? '', page: 1})
+//
+// const createDate = (date) => {
+//     const fullDate = new Date(date)
+//
+//     return fullDate.getDate() + ' Oct. ' + fullDate.getFullYear()
+// }
 </script>
 
 <style lang="scss">

@@ -1,5 +1,5 @@
 <template>
-    <header class="h-16 flex items-center border-b border-violet">
+    <header class="h-16 flex items-center border-b border-neutral-900">
         <div class="md:container md:mx-auto">
             <div class="relative inline-flex">
                 <div>
@@ -71,15 +71,15 @@ const closeMenu = () => {
 .input {
     @apply
     transition
-    focus:border-violet
+    focus:border-neutral-900
     bg-gray-800
     px-3 w-60
     caret-white
     text-white
     rounded-lg
     border
-    border-violet
-    border-violet-500
+    border-neutral-900
+
     h-9
     block
     text-white
@@ -101,7 +101,7 @@ const closeMenu = () => {
     h-60
     w-full
     rounded-lg
-    border-violet
+    border-neutral-900
     border
     translate-y-2.5
     ease-out

@@ -2,6 +2,7 @@ import {createStore} from "vuex";
 import search from "./search/search.js";
 import posts from "./posts/posts.js";
 import auth from "./auth/auth.js";
+import profile from "./profile/profile.js";
 
 const mutations = {
     SET_USER(state, payload) {
@@ -20,18 +21,14 @@ const actions = {
 }
 const store = createStore({
     strict: process.env.NODE_ENV !== 'production',
-    state() {
-        return {
-            isAuthenticated: false,
 
-        }
-    },
     actions,
     mutations,
     modules: {
         search,
         posts,
-        auth
+        auth,
+        profile
     }
 
 })

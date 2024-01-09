@@ -1,7 +1,7 @@
 <template>
     <div class="bg-black py-6 px-4 min-h-full min-h-screen flex flex-col justify-center items-center">
         <form @submit="login" class="base-block">
-            <BaseInput id="email" label="E-mail" v-model="state.email"/>
+            <BaseInput id="login" label="Login" v-model="state.login"/>
             <BaseInput id="password" type="password" label="Password" v-model="state.password"/>
             <BaseButton text="Login"/>
         </form>
@@ -23,17 +23,15 @@ if (getCookie('access_token')) {
     router.push('/profile')
 }
 const state = reactive({
-    email: '',
+    login: '',
     password: ''
 })
 
 const store = useStore()
 
-
-
 const login = (e) => {
     store.dispatch('auth/' + types.LOGIN,
-        {email: state.email, password: state.password}
+        {name: state.login, password: state.password}
     )
 
     e.preventDefault()

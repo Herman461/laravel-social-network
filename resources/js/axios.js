@@ -7,7 +7,7 @@ const headers = {
 const token = getCookie('access_token')
 
 if (token) {
-    headers['Autorization'] = 'Bearer ' + token
+    headers['Authorization'] = 'Bearer ' + token
 }
 
 const http = axios.create({
