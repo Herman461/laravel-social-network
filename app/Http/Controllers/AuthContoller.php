@@ -21,7 +21,7 @@ class AuthContoller extends Controller
     public function login(Request $request): JsonResponse
     {
         $user = User::query()
-            ->where('email', '=', $request->email)
+            ->where('name', '=', $request->name)
             ->first();
 
         if (empty($user) || !Hash::check($request->password, $user->password)) {
@@ -29,8 +29,8 @@ class AuthContoller extends Controller
                 'status' => 'Unauthorized'
             ], 401);
         }
-
-        $token = $user->currentAccessToken() ?: $user->createToken(str()->random(64));
+        $user->tokens()->delete();
+        $token = $user->createToken(str()->random(64));
 
         return response()->json([
             'access_token' => $token->plainTextToken,

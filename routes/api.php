@@ -28,14 +28,16 @@ Route::post('/auth/create', function () {
 Route::view('/login', 'login');
 
 Route::controller(ProfileController::class)->group(function () {
-    Route::post('/upload/avatar', 'upload_avatar');
-//    Route::get('/profile/{slug?}', 'get');
+    Route::post('/profile/upload/avatar', 'uploadAvatar')->middleware('auth:sanctum');
+    Route::post('/profile/upload/banner', 'uploadBanner')->middleware('auth:sanctum');
+    Route::get('/profile/user/{slug?}', 'getUser');
+
 });
 
 
 Route::controller(PostController::class)
     ->group(function () {
-//        Route::post('/post/store', 'store')->name('post.store')->middleware('auth');
+
         Route::post('/post/store', 'store')->name('post.store');
         Route::patch('/post/{post}/views/', 'incrementViews')->name('patch.views.increment')->middleware('auth');
         Route::get('/posts', 'getMany');
