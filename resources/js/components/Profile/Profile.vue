@@ -9,9 +9,9 @@
                     <ProfileBanner />
                     <ProfileAvatar />
                 </div>
-                <div class="info pt-6">
+                <div class="info pt-6 flex">
                     <div class="pl-48 text-white text-lg">{{login}}</div>
-
+                    <ProfileFollowers />
                 </div>
                 <div v-for="post in posts" class="post mb-8 last:mb-0 bg-gray-950 p-3 rounded-lg">
                     <div class="flex">
@@ -70,12 +70,14 @@ import profileTypes from "../../../store/profile/types.js";
 import FavoriteIcon from '../Pages/icons/favorite.svg?component';
 
 
+
 import { useRoute } from 'vue-router'
 
 import BaseSidebar from "../common/BaseSidebar.vue";
 import ProfileAvatar from "./components/ProfileAvatar.vue";
 import ProfileBanner from "./components/ProfileBanner.vue";
 import store from "../../../store/store.js";
+import ProfileFollowers from "./components/ProfileFollowers.vue";
 
 
 
@@ -106,11 +108,89 @@ if (!store.state.profile.user.name) {
 </script>
 
 <style lang="scss">
+.pulse-item {
+    pointer-events: none;
+    position: absolute;
+    border: 2px solid #DB2777;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+
+    animation: pulse 1s linear infinite;
+    transition: all 0.3s ease 0s;
+}
+.pulse-item {
+
+}
+.pulse::before,
+.pulse::after {
+    content: '';
+    position: absolute;
+    border: 2px solid #DB2777;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+
+    transition: all 0.3s ease 0s;
+}
+.pulse::before {
+    animation: pulse2 1.2s linear infinite;
+}
+.pulse::after {
+    animation: pulse3 1.4s linear infinite;
+}
+
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.14);
+        opacity: 0;
+    }
+}
+
+@keyframes pulse2 {
+    0% {
+        transform: scale(1);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.18);
+        opacity: 0;
+    }
+}
+@keyframes pulse3 {
+    0% {
+        transform: scale(1);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.22);
+        opacity: 0;
+    }
+}
 body {
     @apply text-white;
 }
 *::selection {
-    @apply text-white bg-violet;
+    @apply text-white bg-pink-700;
 }
 .icon svg {
     width: 28px;
@@ -118,3 +198,4 @@ body {
     fill: #fff !important;
 }
 </style>
+

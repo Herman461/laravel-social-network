@@ -1,7 +1,7 @@
 <template>
-    <div @click="onAvatarClick" :class="{loading: state.isLoading}" class="group avatar">
+    <div @click="onAvatarClick" :class="{loading: state.isLoading}" class="group avatar pulse">
         <input @change="onAvatarChange" ref="file" type="file" accept=".jpg,.jpeg,.png" class="hidden">
-        <div class="pulse"></div>
+        <div class="pulse-item"></div>
         <div class="avatar-wrapper overflow-hidden">
             <div v-if="imageSrc && !state.isLoading" class="w-full h-full">
                 <img :src="'/storage/images/uploads/' + imageSrc" alt="" class="transition group-hover:scale-110 w-full h-full absolute left-1/2 top-1/2 -translate-y-2/4 -translate-x-2/4 object-cover object-center" />
@@ -71,45 +71,19 @@ const onAvatarChange = async (e) => {
     border-solid border-pink-900
 
 }
-
+.pulse::before,
+.pulse::after {
+    border-radius: 50% !important;
+}
+.pulse-item {
+    border-radius: 50% !important;
+}
 .avatar-wrapper {
     @apply relative w-full h-full rounded-full
 }
-.avatar::before,
-.avatar::after {
-    content: '';
-    position: absolute;
-    border: 2px solid #DB2777;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    pointer-events: none;
-    border-radius: 50%;
-    transition: all 0.3s ease 0s;
-}
-.avatar::before {
-    animation: pulse2 1.2s linear infinite;
-}
-.avatar::after {
-    animation: pulse3 1.4s linear infinite;
-}
-.pulse {
-    pointer-events: none;
-    position: absolute;
-    border: 2px solid #DB2777;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    border-radius: 50%;
-    animation: pulse 1s linear infinite;
-    transition: all 0.3s ease 0s;
-}
+
 .avatar.loading {
-    .pulse {
+    .pulse-item {
         opacity: 0 !important;
         animation: none;
         transform: scale(0) !important;
@@ -127,44 +101,5 @@ const onAvatarChange = async (e) => {
 .avatar-wrapper::before {
     transition-delay: 0.8s;
 }
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1.14);
-        opacity: 0;
-    }
-}
 
-@keyframes pulse2 {
-    0% {
-        transform: scale(1);
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1.18);
-        opacity: 0;
-    }
-}
-@keyframes pulse3 {
-    0% {
-        transform: scale(1);
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1.22);
-        opacity: 0;
-    }
-}
 </style>

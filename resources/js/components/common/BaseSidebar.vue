@@ -17,6 +17,16 @@
                         <span class="ml-3">Messenger</span>
                     </router-link>
                 </li>
+                <li>
+                    <router-link to="/followers" class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 hover:bg-gray-700">
+                        <span class="ml-3">Followers</span>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/following" class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 hover:bg-gray-700">
+                        <span class="ml-3">Following</span>
+                    </router-link>
+                </li>
             </ul>
         </div>
     </aside>

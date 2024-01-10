@@ -1,4 +1,6 @@
 import Profile from './components/Profile/Profile.vue'
+import Followers from './components/Followers/Followers.vue'
+import Following from './components/Following/Following.vue'
 import Messenger from './components/Pages/Messenger.vue'
 import Login from './components/Pages/Login.vue'
 import Home from './components/Pages/Home.vue'
@@ -8,10 +10,12 @@ import {getCookie} from "./helpers.js";
 
 
 const routes = [
-    { path: '/profile/:slug?', component: Profile, name: 'profile', meta: {requiresAuth: true} },
+    { path: '/profile/:slug?', component: Profile, name: 'profile', meta: {requiresAuth: false} },
     { path: '/im', component: Messenger, name: 'messenger' },
     { path: '/login', component: Login, name: 'login' },
     { path: '/', component: Home, name: 'home' },
+    { path: '/followers', component: Followers, name: 'home' },
+    { path: '/following', component: Following, name: 'home' },
 ]
 
 const router = createRouter({
