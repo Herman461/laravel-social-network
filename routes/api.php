@@ -31,6 +31,8 @@ Route::controller(ProfileController::class)->group(function () {
     Route::post('/profile/upload/avatar', 'uploadAvatar')->middleware('auth:sanctum');
     Route::post('/profile/upload/banner', 'uploadBanner')->middleware('auth:sanctum');
     Route::get('/profile/user/{slug?}', 'getUser');
+    Route::post('/profile/follow/{user}', 'follow')->middleware('auth:sanctum');
+    Route::post('/profile/unfollow/{user}', 'unfollow')->middleware('auth:sanctum');
 
 });
 

@@ -16,7 +16,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(5)->create();
+        $users = User::factory(10)->create();
+
+        $currentUser = User::query()->find(1);
+
+        $users->each(function($user) use ($currentUser) {
+            if ($user->id === 1) return;
+
+            $currentUser->followers()->attach($user);
+        });
 //        Post::factory(10)->create()
 //            ->each(function ($post) {
 //

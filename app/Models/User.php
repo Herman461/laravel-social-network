@@ -61,6 +61,7 @@ class User extends Authenticatable
             $user->slug = $user->slug ?? str($user->name)->slug();
         });
     }
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
@@ -71,8 +72,14 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-//    public function posts(): BelongsToMany
-//    {
-//        return $this->belongsToMany(Post::class);
-//    }
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'author_follower', 'author_id', 'follower_id');
+    }
+
+    public function channelOwners(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'author_follower', 'follower_id', 'author_id');
+    }
+
 }
