@@ -80,7 +80,7 @@ class ProfileController extends Controller
             ], 401);
         }
 
-
+        $isFollower = false;
 
         if (empty($slug)) {
             $canEditProfile = true;

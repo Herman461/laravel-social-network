@@ -54,10 +54,10 @@ Route::controller(AuthContoller::class)
         Route::get('/auth/get', 'get');
 });
 
-Route::get('/profile/user/{slug}', function ($slug) {
-    $user = User::whereSlug($slug)->get();
-    return $user;
-});
+//Route::get('/profile/user/{slug}', function ($slug) {
+//    $user = User::whereSlug($slug)->get();
+//    return $user;
+//});
 
 Route::post('/auth/check', function () {
     return response()->json(['status' => 'Authorized'], 200);

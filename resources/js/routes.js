@@ -14,8 +14,8 @@ const routes = [
     { path: '/im', component: Messenger, name: 'messenger' },
     { path: '/login', component: Login, name: 'login' },
     { path: '/', component: Home, name: 'home' },
-    { path: '/followers', component: Followers, name: 'home' },
-    { path: '/following', component: Following, name: 'home' },
+    { path: '/followers', component: Followers, name: 'followers' },
+    { path: '/following', component: Following, name: 'following' },
 ]
 
 const router = createRouter({
