@@ -28,6 +28,8 @@ Route::post('/auth/create', function () {
 Route::view('/login', 'login');
 
 Route::controller(ProfileController::class)->group(function () {
+    Route::get('/videos/{name}', 'getVideo');
+
     Route::post('/profile/upload/avatar', 'uploadAvatar')->middleware('auth:sanctum');
     Route::post('/profile/upload/banner', 'uploadBanner')->middleware('auth:sanctum');
     Route::get('/profile/user/{slug?}', 'getUser');

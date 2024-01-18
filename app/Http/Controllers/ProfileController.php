@@ -11,9 +11,65 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Support\Facades\Response;
+use App\VideoStream;
 
 class ProfileController extends Controller
 {
+    public function getVideo(Request $request)
+    {
+        $filename = Storage::disk('public')->path("videos/01.mp4");
+        $stream = new VideoStream($filename);
+        $stream->start();
+
+//        $mimetype = Storage::disk('public')->mimeType("videos/01.mp4");
+//        return response($file, 200)->header('Content-Type', $mimetype);
+
+//        $path = Storage::disk('public')->path("videos/01.mp4");
+//
+//        VideoStreamer::streamFile($path);
+//        $size = filesize(Storage::disk('public')->path("videos/01.mp4"));
+//        $end = $size - 1;
+//
+////        dd(Storage::disk('public')->path("videos/01.mp4"));
+//        $video = Storage::disk('public')->get("videos/01.mp4");
+//        $response = Response::make($video, 200);
+//
+//
+//        $response->withHeaders([
+//            'Content-Type' => 'video/mp4',
+//            'Accept-Ranges' => '0-' . $end,
+//            'Cache-Control' => 'max-age=2592000, public',
+//            'Expires' => gmdate('D, d M Y H:i:s', time()+2592000) . ' GMT'
+//        ]);
+//
+//        if (! $request->hasHeader('Range')) {
+//            $response->header('Content-Length', $size);
+//            return;
+//        }
+//
+//
+//        [
+//            ,
+//            $range,
+//        ] = explode('=', $request->header('Range'), 2);
+//
+//        if (strpos($range, ',') !== false) {
+//            $response->header()
+//                ->setStatusCode(416);
+//            header("Content-Range: bytes 0-$end/$size");
+//            exit;
+//        }
+//
+//        if ($request->hasHeader('Range')) {
+//            list(, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
+//        } else {
+//
+//        }
+//
+//        return $response;
+//        return response()->download($video);
+    }
     public function uploadAvatar(Request $request): JsonResponse {
 
         $request->validate([
