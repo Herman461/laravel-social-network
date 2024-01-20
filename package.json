@@ -20,6 +20,7 @@
         "vue": "^3.2.36",
         "vue-loader": "^17.3.0",
         "vue-router": "^4.2.5",
+        "vue3-smooth-scroll": "^0.8.1",
         "vuex": "^4.0.2"
     }
 }

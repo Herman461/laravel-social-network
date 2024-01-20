@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,20 +26,13 @@ class DatabaseSeeder extends Seeder
 
             $currentUser->followers()->attach($user);
         });
-//        Post::factory(10)->create()
-//            ->each(function ($post) {
-//
-//                $comments = Comment::factory( rand( 0, 5 ) )->make();
-//
-//                $post->comments()->createMany( $comments->toArray() );
-//
-//                $post->comments()->each(function($comment) {
-//                    $replies = Comment::factory( rand( 0, 5 ) )->make();
-//
-//                    $comment->replies()->createMany($replies->toArray());
-//                });
-//            });
-//
+
+        Video::factory(1)->create();
+        Comment::factory(10)->create();
+
+        $users->each(function($user) {
+            (new Like(['video_id' => 1, 'user_id' => $user->id]))->save();
+        });
 
 
     }

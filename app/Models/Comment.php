@@ -17,8 +17,7 @@ class Comment extends Model
     protected $fillable = [
         'content',
         'user_id',
-        'commentable_id',
-        'commentable_type'
+        'video_id'
     ];
 
     public function user(): BelongsTo
@@ -26,13 +25,8 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function replies(): MorphMany
+    public function video(): BelongsTo
     {
-        return $this->morphMany(Comment::class, 'commentable');
-    }
-
-    public function commentable(): MorphTo
-    {
-        return $this->morphTo('commentable');
+        return $this->belongsTo(Video::class);
     }
 }

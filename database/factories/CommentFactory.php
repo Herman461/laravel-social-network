@@ -23,6 +23,7 @@ class CommentFactory extends Factory
         return [
             'content' => fake()->sentence(12, true),
             'user_id' => User::all()->random()->id,
+            'video_id' => 1
         ];
     }
 }
