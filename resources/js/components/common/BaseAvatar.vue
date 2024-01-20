@@ -1,12 +1,17 @@
 <template>
-    <div class="group avatar pulse">
-        <div class="pulse-item"></div>
+    <div
+        :style="{'width': size, 'height': size, 'max-width': size, 'max-height': size}"
+        class="group avatar shrink-0 flex-auto"
+        :class="{'pulse': hasPulse}"
+
+    >
+        <div v-if="hasPulse" class="pulse-item"></div>
         <div class="avatar-wrapper overflow-hidden">
             <div v-if="props.imageSrc" class="w-full h-full">
                 <img :src="'/storage/images/uploads/' + props.imageSrc" alt="" class="transition group-hover:scale-110 w-full h-full absolute left-1/2 top-1/2 -translate-y-2/4 -translate-x-2/4 object-cover object-center" />
             </div>
             <div v-if="!props.imageSrc" class="w-full h-full">
-                <PersonIcon viewBox="0 0 24 24" class="transition group-hover:scale-110 w-20 h-20 text-pink-600 absolute left-1/2 -translate-x-2/4 -bottom-2" />
+                <PersonIcon viewBox="0 0 24 24" class="transition group-hover:scale-110 w-full h-full text-pink-600 absolute left-1/2 -translate-x-2/4 -bottom-2" />
             </div>
         </div>
     </div>
@@ -19,6 +24,14 @@ const props = defineProps({
     imageSrc: {
         type: String,
         default: ""
+    },
+    size: {
+        type: String,
+        default: "6rem"
+    },
+    hasPulse: {
+        type: Boolean,
+        default: true
     }
 })
 </script>
@@ -26,7 +39,7 @@ const props = defineProps({
 <style lang="scss" scoped>
 .avatar {
     @apply bg-neutral-900
-    rounded-full h-24 w-24
+    rounded-full
     flex items-center justify-center
     cursor-pointer border-2
     border-solid border-pink-900

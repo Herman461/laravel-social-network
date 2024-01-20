@@ -1,22 +1,25 @@
 <template>
-    <div class="bg-black min-h-full min-h-screen">
-        <base-header />
 
-        <main class="md:container flex mx-auto pt-5">
-            <base-sidebar />
-            <div class="flex-auto ps-8" v-if="!isLoading">
-                <div class="relative">
-                    <ProfileBanner />
-                    <ProfileAvatar />
+        <div class="bg-black min-h-full min-h-screen">
+            <base-header />
+
+            <main class="md:container flex mx-auto pt-5">
+                <base-sidebar />
+                <div class="flex-auto ps-8" v-if="!isLoading">
+                    <div class="relative">
+                        <ProfileBanner />
+                        <ProfileAvatar />
+                    </div>
+                    <div class="info pt-6 flex pb-8 border-solid border-b-2 border-pink-700">
+                        <div class="pl-48 text-white text-lg">{{login}}</div>
+                        <ProfileFollowers />
+                    </div>
+                    <ProfileFeed />
                 </div>
-                <div class="info pt-6 flex pb-8 border-solid border-b-2 border-pink-700">
-                    <div class="pl-48 text-white text-lg">{{login}}</div>
-                    <ProfileFollowers />
-                </div>
-                <ProfileFeed />
-            </div>
-        </main>
-    </div>
+            </main>
+        </div>
+
+
 
 </template>
 

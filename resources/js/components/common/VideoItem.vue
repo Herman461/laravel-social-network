@@ -1,33 +1,95 @@
 <template>
-    <div @mouseleave="stopVideo" class="item pl-2 pr-2 basis-1/4 mb-4">
-        <div class="pb-4 bg-neutral-900"   >
+    <div @click="onClick" @mouseleave="stopVideo" class="item pl-2 pr-2 basis-1/4 mb-4 relative">
+
+        <div class="bg-neutral-900 pb-4 relative z-30">
             <div @mouseenter="playVideo" class="video w-full h-56 relative cursor-pointer">
-                <video @timeupdate="onTimeUpdate" muted ref="video" class="w-full h-full object-cover absolute top-0 left-0 rounded-t-md" preload="metadata">
-                    <source :src="'api/videos/01.mp4?id=' + Math.random()" type="video/mp4" />
+                <video
+                    loop muted
+                    @timeupdate="onTimeUpdate"
+                    ref="video"
+                    class="w-full h-full object-cover absolute top-0 left-0 rounded-t-md" preload="metadata"
+                >
+                    <source :src="'/api/videos/stream/01.mp4?id=' + Math.random()" type="video/mp4" />
                 </video>
-                <div class="range-slider absolute bottom-0 left-0">
-                    <div class="range-slider-wrapper relative">
-<!--                        <input ref="progressbar" @change="onProgressbarChange" value="0" min="0" max="14" type="range" class="absolute h-1 w-full bottom-0 left-0">-->
-                        <div class="progress">
-                            <div
-                                @mousedown="onThumbMove"
-                                class="progress-thumb"
-                                :style="{left: state.progress + '%', cursor: state.isThumbGrabing ? 'grabbing' : 'grab'}"
-                            >
+                <div
+                    class="progress"
+                    :class="{'hidden': state.isProgressbarHidden}"
+                >
 
-                            </div>
-                            <div class="progress-active" :style="{width: state.progress + '%'}"></div>
+                    <div
+                        @mousedown="onThumbMove"
+                        class="progress-thumb"
+                        :style="{left: state.progress + '%', cursor: state.isThumbGrabing ? 'grabbing' : 'grab'}"
+                    >
+                        <div
+                            class="relative"
+                            :class="{'hidden': !state.isThumbGrabing}"
+                        >
+                            <div class="progress-time inline-flex bg-pink-700 py-1 px-1 text-sm rounded-md font-medium">{{state.currentTime}}</div>
                         </div>
+
                     </div>
-
+                    <div class="progress-active" :style="{width: state.progress + '%'}"></div>
                 </div>
-
-                <!--            <img src="/storage/images/uploads/1704842833.jpg" class="w-full h-full object-cover absolute top-0 left-0 rounded-t-md" alt="">-->
             </div>
         </div>
+        <div class="flex justify-between bg-neutral-900 pb-4 h-10 w-full rounded-b-md relative z-30 pl-2 pr-2">
+            <div class="inline-flex items-center">
+                <EyeIcon viewBox="0 0 24 24" class="text-white transition w-6 h-6" />
+                <span class="group-hover:text-pink-500 font-medium transition text-md ml-1">34M</span>
+            </div>
+            <div class="group cursor-pointer inline-flex items-center">
+                <FavoriteFillIcon viewBox="0 0 24 24" class="group-hover:text-pink-700 text-transparent stroke-pink-700 transition w-6 h-6" />
+                <span class="group-hover:text-pink-500 font-medium transition text-md ml-1">2150</span>
+            </div>
 
-        <div class="bg-neutral-900 h-12 w-full rounded-b-md">
-
+        </div>
+        <div
+            class="transition duration-500 py-3 px-2 z-20 overflow-auto absolute h-full bg-neutral-900 top-0 right-3 rounded-md comments"
+            :class="{'active': state.isCommentBlockActive}"
+        >
+            <div class="comments-item flex mb-3">
+                <BaseAvatar :has-pulse="false" size="3rem" />
+                <div class="pt-1 pl-2">
+                    <div class="text-[12px] font-medium mb-1">Тедя</div>
+                    <div class="text-[12px] leading-tight">Это очень качественное видео! Получил море удовольствия от просмотра!</div>
+                </div>
+            </div>
+            <div class="comments-item flex mb-3 last:mb-0">
+                <BaseAvatar :has-pulse="false" size="3rem" />
+                <div class="pt-1 pl-2">
+                    <div class="text-[12px] font-medium mb-1">Тедя</div>
+                    <div class="text-[12px] leading-tight">Это очень качественное видео! Получил море удовольствия от просмотра!</div>
+                </div>
+            </div>
+            <div class="comments-item flex mb-3 last:mb-0">
+                <BaseAvatar :has-pulse="false" size="3rem" />
+                <div class="pt-1 pl-2">
+                    <div class="text-[12px] font-medium mb-1">Тедя</div>
+                    <div class="text-[12px] leading-tight">Это очень качественное видео! Получил море удовольствия от просмотра!</div>
+                </div>
+            </div>
+            <div class="comments-item flex mb-3 last:mb-0">
+                <BaseAvatar :has-pulse="false" size="3rem" />
+                <div class="pt-1 pl-2">
+                    <div class="text-[12px] font-medium mb-1">Тедя</div>
+                    <div class="text-[12px] leading-tight">Это очень качественное видео! Получил море удовольствия от просмотра!</div>
+                </div>
+            </div>
+            <div class="comments-item flex mb-3 last:mb-0">
+                <BaseAvatar :has-pulse="false" size="3rem" />
+                <div class="pt-1 pl-2">
+                    <div class="text-[12px] font-medium mb-1">Тедя</div>
+                    <div class="text-[12px] leading-tight">Это очень качественное видео! Получил море удовольствия от просмотра!</div>
+                </div>
+            </div>
+            <div class="comments-item flex mb-3 last:mb-0">
+                <BaseAvatar :has-pulse="false" size="3rem" />
+                <div class="pt-1 pl-2">
+                    <div class="text-[12px] font-medium mb-1">Тедя</div>
+                    <div class="text-[12px] leading-tight">Это очень качественное видео! Получил море удовольствия от просмотра!</div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -36,24 +98,71 @@
 
 import {reactive, ref} from "vue";
 import {http} from "../../axios.js";
+import BaseAvatar from "./BaseAvatar.vue";
+import FavoriteFillIcon from '../../../images/icons/favorite-fill.svg?component';
+import EyeIcon from '../../../images/icons/eye.svg?component';
 
 const state = reactive({
     progress: 0,
-    isThumbGrabing: false
+    isThumbGrabing: false,
+    isProgressbarHidden: true,
+    currentTime: '0:00',
+    isCommentBlockActive: false,
 })
+
+const onClick = () => {
+    state.isCommentBlockActive = !state.isCommentBlockActive
+
+    if (state.isCommentBlockActive) {
+        document.body.onclick = function(e) {
+            console.log('click')
+            if (!e.target.closest('.item')) {
+                state.isCommentBlockActive = false
+                document.body.onclick = null
+            }
+        }
+    }
+}
 const video = ref(null)
 const progressbar = ref(null)
+
+
+const playVideo = () => {
+    state.isProgressbarHidden = false
+    video.value.play()
+}
+
+const stopVideo = () => {
+    state.isProgressbarHidden = true
+    video.value.pause()
+    video.value.currentTime = 0
+}
+const onTimeUpdate = () => {
+    state.progress = (video.value.currentTime * 100) / video.value.duration
+
+
+    const minutes = Math.floor(video.value.currentTime / 60);
+    let seconds = Math.floor(video.value.currentTime % 60);
+
+    if (seconds <= 9) {
+        seconds = '0' + seconds
+    }
+
+    if (video.value.currentTime < 60) {
+        state.currentTime = minutes + ':' + seconds
+    }
+}
 
 const onThumbMove = (e) => {
     e.preventDefault()
 
     state.isThumbGrabing = true
 
-    e = e || window.event;
+    e = e || window.event
     const thumb = e.currentTarget
     let start = 0, diff = 0;
-    if( e.pageX) start = e.pageX;
-    else if( e.clientX) start = e.clientX;
+    if( e.pageX) start = e.pageX
+    else if( e.clientX) start = e.clientX
 
     const currentProgress = state.progress
 
@@ -88,64 +197,44 @@ const onThumbMove = (e) => {
 
         state.progress = result
         video.value.currentTime = Math.floor((result * video.value.duration) / 100)
-        console.log(video.value.currentTime)
     };
     document.body.onmouseup = function() {
         state.isThumbGrabing = false
 
-        // do something with the action here
-        // elem has been moved by diff pixels in the X axis
-        // thumb.style.position = 'static';
-        document.body.onmousemove = document.body.onmouseup = null;
+        document.body.onmousemove = document.body.onmouseup = null
     };
 }
-const playVideo = () => {
 
-    video.value.play()
-}
-
-const stopVideo = () => {
-    video.value.pause()
-    video.value.currentTime = 0
-}
-const onTimeUpdate = () => {
-    state.progress = (video.value.currentTime * 100) / video.value.duration
-    // if (!(progressbar.value.value > video.value.currentTime)) {
-    //     progressbar.value.value = video.value.currentTime
-    // }
-
-}
-// const onProgressbarChange = () => {
-//     video.value.currentTime = String(progressbar.value.value)
-//     console.log(video.currentTime)
-//
-// }
 </script>
-
+<style lang="scss">
+.item .comments .ps {
+    height: 100%;
+}
+</style>
 <style scoped lang="scss">
-//input[type="range"]::-webkit-slider-runnable-track {
-//    width: 100%;
-//    height: 1.2em;
-//    cursor: pointer;
-//    border: 1px solid #29334f;
-//    overflow: hidden;
-//}
+.comments {
+    width: calc(100% - 20px);
+    //@apply -translate-x-full;
+    &.active {
+        //width: 100%;
+        @apply translate-x-full right-0;
+    }
+}
+.progress-time {
+    position: absolute;
+    top: -0.6rem;
+    left: 0;
+    transform: translate(-60%, -100%);
+    &::before {
+        content: '';
+        @apply h-2 w-2 bg-pink-700 text-sm -rotate-45 transform origin-top-left absolute bottom-0 left-1/2 -translate-x-[0.32rem] translate-y-2;
+    }
 
+}
 .video {
     padding-bottom: 144%;
 }
-//input[type=range] {
-//    -webkit-appearance: none;
-//    @apply bg-gray-700
-//}
-//
-input[type="range"]::-webkit-slider-thumb {
-    //display: none;
-    //-webkit-appearance: none;
-    //transition : all .3s;
-    //border-radius: 50%;
-    //@apply h-2 w-2 bg-pink-700
-}
+
 
 input[type="range"] {
     -webkit-appearance: none;
@@ -168,7 +257,7 @@ input[type="range"] {
 }
 .progress {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
 
     width: 100%;

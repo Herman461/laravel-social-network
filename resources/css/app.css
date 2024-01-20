@@ -98,3 +98,23 @@ a {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    overflow-x: hidden;
+}
+*::-webkit-scrollbar {
+    width: 3px;
+}
+*::-webkit-scrollbar-track {
+    @apply bg-neutral-900;
+    border-radius: 3px;
+}
+*::-webkit-scrollbar-thumb {
+    @apply bg-pink-700;
+    border-radius: 3px;
+
+}
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #DB2777 #171717;
+}
