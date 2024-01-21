@@ -1,15 +1,15 @@
 <template>
-    <div @click="onClick" @mouseleave="stopVideo" class="item pl-2 pr-2 basis-1/4 mb-4 relative">
+    <div :class="{last: state.toLeftSide}" @mouseleave="stopVideo" class="item pl-2 pr-2 basis-1/4 mb-4 relative">
 
-        <div class="bg-neutral-900 pb-4 relative z-30">
-            <div @mouseenter="playVideo" class="video w-full h-56 relative cursor-pointer">
+        <div class="item-video bg-neutral-900 pb-2 relative rounded-t-md">
+            <div @mouseenter="playVideo" class="video w-full relative cursor-pointer">
                 <video
-                    loop muted
+                    loop :muted="!allowSound"
                     @timeupdate="onTimeUpdate"
                     ref="video"
                     class="w-full h-full object-cover absolute top-0 left-0 rounded-t-md" preload="metadata"
                 >
-                    <source :src="'/api/videos/stream/01.mp4?id=' + Math.random()" type="video/mp4" />
+                    <source :src="'/api/videos/stream/' + props.video.video.name" type="video/mp4" />
                 </video>
                 <div
                     class="progress"
@@ -33,92 +33,117 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-between bg-neutral-900 pb-4 h-10 w-full rounded-b-md relative z-30 pl-2 pr-2">
-            <div class="inline-flex items-center">
-                <EyeIcon viewBox="0 0 24 24" class="text-white transition w-6 h-6" />
-                <span class="group-hover:text-pink-500 font-medium transition text-md ml-1">34M</span>
+        <div class="item-info bg-neutral-900 pb-2 w-full rounded-b-md relative pl-2 pr-2">
+            <div class="border-b w-full flex justify-between border-pink-700 pb-2">
+                <div class="inline-flex items-center">
+                    <EyeIcon viewBox="0 0 24 24" class="text-white transition w-6 h-6" />
+                    <span class="group-hover:text-pink-500 font-medium transition text-md ml-1">{{props.video.video.views}}</span>
+                </div>
+                <div class="group cursor-pointer inline-flex items-center">
+                    <FavoriteFillIcon viewBox="0 0 24 24" class="group-hover:text-pink-700 text-transparent stroke-pink-700 transition w-6 h-6" />
+                    <span class="group-hover:text-pink-700 font-medium transition text-md ml-1">{{props.video.likes_count}}</span>
+                </div>
             </div>
-            <div class="group cursor-pointer inline-flex items-center">
-                <FavoriteFillIcon viewBox="0 0 24 24" class="group-hover:text-pink-700 text-transparent stroke-pink-700 transition w-6 h-6" />
-                <span class="group-hover:text-pink-500 font-medium transition text-md ml-1">2150</span>
+            <div class="flex justify-end pt-2">
+                <div @click="toggleSound" class="group cursor-pointer mr-3">
+                    <SoundOnIcon v-if="allowSound" class="text-pink-700 transition group-hover:text-pink-600"/>
+                    <SoundOffIcon v-else class="text-pink-700 transition group-hover:text-pink-600"/>
+                </div>
+                <div @click="toggleComments" class="inline-flex items-center group cursor-pointer">
+                    <CommentsIcon class="text-pink-700"/>
+                    <span class="group-hover:text-pink-700 font-medium transition text-md ml-1">{{props.video.comments_count}}</span>
+                </div>
             </div>
 
         </div>
         <div
-            class="transition duration-500 py-3 px-2 z-20 overflow-auto absolute h-full bg-neutral-900 top-0 right-3 rounded-md comments"
+            class="transition duration-500 py-3 px-2 overflow-auto absolute h-full bg-neutral-900 top-0 opacity-0 rounded-md comments"
             :class="{'active': state.isCommentBlockActive}"
         >
-            <div class="comments-item flex mb-3">
-                <BaseAvatar :has-pulse="false" size="3rem" />
+            <div :key="comment.id" v-for="comment in props.video.comments" class="comments-item flex mb-3">
+                <BaseAvatar :slug="comment.user.slug" :has-pulse="false" size="3rem" />
                 <div class="pt-1 pl-2">
-                    <div class="text-[12px] font-medium mb-1">Тедя</div>
-                    <div class="text-[12px] leading-tight">Это очень качественное видео! Получил море удовольствия от просмотра!</div>
+                    <div class="text-[12px] font-medium mb-1">{{comment.user.name}}</div>
+                    <div class="text-[12px] leading-tight">{{comment.comment.content}}</div>
                 </div>
             </div>
-            <div class="comments-item flex mb-3 last:mb-0">
-                <BaseAvatar :has-pulse="false" size="3rem" />
-                <div class="pt-1 pl-2">
-                    <div class="text-[12px] font-medium mb-1">Тедя</div>
-                    <div class="text-[12px] leading-tight">Это очень качественное видео! Получил море удовольствия от просмотра!</div>
-                </div>
-            </div>
-            <div class="comments-item flex mb-3 last:mb-0">
-                <BaseAvatar :has-pulse="false" size="3rem" />
-                <div class="pt-1 pl-2">
-                    <div class="text-[12px] font-medium mb-1">Тедя</div>
-                    <div class="text-[12px] leading-tight">Это очень качественное видео! Получил море удовольствия от просмотра!</div>
-                </div>
-            </div>
-            <div class="comments-item flex mb-3 last:mb-0">
-                <BaseAvatar :has-pulse="false" size="3rem" />
-                <div class="pt-1 pl-2">
-                    <div class="text-[12px] font-medium mb-1">Тедя</div>
-                    <div class="text-[12px] leading-tight">Это очень качественное видео! Получил море удовольствия от просмотра!</div>
-                </div>
-            </div>
-            <div class="comments-item flex mb-3 last:mb-0">
-                <BaseAvatar :has-pulse="false" size="3rem" />
-                <div class="pt-1 pl-2">
-                    <div class="text-[12px] font-medium mb-1">Тедя</div>
-                    <div class="text-[12px] leading-tight">Это очень качественное видео! Получил море удовольствия от просмотра!</div>
-                </div>
-            </div>
-            <div class="comments-item flex mb-3 last:mb-0">
-                <BaseAvatar :has-pulse="false" size="3rem" />
-                <div class="pt-1 pl-2">
-                    <div class="text-[12px] font-medium mb-1">Тедя</div>
-                    <div class="text-[12px] leading-tight">Это очень качественное видео! Получил море удовольствия от просмотра!</div>
-                </div>
-            </div>
+
         </div>
     </div>
 </template>
 
 <script setup>
 
-import {reactive, ref} from "vue";
+import {computed, reactive, ref} from "vue";
 import {http} from "../../axios.js";
 import BaseAvatar from "./BaseAvatar.vue";
 import FavoriteFillIcon from '../../../images/icons/favorite-fill.svg?component';
+import CommentsIcon from '../../../images/icons/comments.svg?component';
+import SoundOffIcon from '../../../images/icons/muted.svg?component';
+import SoundOnIcon from '../../../images/icons/sound.svg?component';
 import EyeIcon from '../../../images/icons/eye.svg?component';
+import types from "../../../store/profile/types.js";
+import store from "../../../store/store.js";
 
+const props = defineProps({
+    video: {
+        type: Object,
+        required: true
+    },
+    index: {
+        type: Number,
+        required: true
+    }
+})
+
+const allowSound = computed(() => store.state.profile.allowSound)
 const state = reactive({
     progress: 0,
     isThumbGrabing: false,
     isProgressbarHidden: true,
     currentTime: '0:00',
     isCommentBlockActive: false,
+    wasWatched: false,
+    toLeftSide: false,
+    hasComments: false,
 })
 
-const onClick = () => {
+const toggleSound = () => {
+    store.commit('profile/' + types.TOGGLE_SOUND)
+}
+
+const toggleComments = () => {
     state.isCommentBlockActive = !state.isCommentBlockActive
+
+    if (!state.hasComments) {
+        state.hasComments = true
+        store.dispatch('profile/' + types.UPLOAD_COMMENTS, {index: props.index, videoId: props.video.video.id, page: 1, perPage: 10})
+    }
+    if (props.index !== 0 && (props.index + 1) % 4 === 0) {
+        if (state.toLeftSide) {
+            setTimeout(() => {
+                state.toLeftSide = false
+            }, 500)
+
+        } else {
+            state.toLeftSide = true
+        }
+    }
+
 
     if (state.isCommentBlockActive) {
         document.body.onclick = function(e) {
-            console.log('click')
+
             if (!e.target.closest('.item')) {
                 state.isCommentBlockActive = false
                 document.body.onclick = null
+
+                setTimeout(() => {
+                    if (state.toLeftSide) {
+                        state.toLeftSide = false
+                    }
+                }, 500)
+
             }
         }
     }
@@ -151,6 +176,17 @@ const onTimeUpdate = () => {
     if (video.value.currentTime < 60) {
         state.currentTime = minutes + ':' + seconds
     }
+
+    if (!state.wasWatched) {
+        const percent = (video.value.currentTime * 100) / video.value.duration
+
+        if (percent >= 10) {
+
+            store.dispatch('profile/' + types.INCREMENET_VIEWS, {videoId: props.video.video.id})
+            state.wasWatched = true
+        }
+    }
+
 }
 
 const onThumbMove = (e) => {
@@ -212,12 +248,26 @@ const onThumbMove = (e) => {
 }
 </style>
 <style scoped lang="scss">
+
 .comments {
-    width: calc(100% - 20px);
+    @apply border border-solid border-black;
+    //width: 100%;
+    right: 0.4rem;
+    width: calc(100% - 14px);
+    //width: calc(100% - 20px);
     //@apply -translate-x-full;
     &.active {
+        right: -0.45rem;
         //width: 100%;
-        @apply translate-x-full right-0;
+        @apply translate-x-full opacity-100;
+    }
+}
+.item.last {
+    .comments {
+        &.active {
+            right: 1.28rem;
+            @apply -translate-x-full
+        }
     }
 }
 .progress-time {
@@ -317,4 +367,66 @@ input[type="range"] {
         border-radius: 50%;
     }
 }
+
+.item {
+    &:nth-child(4n+1) {
+        .item-video {
+            z-index: 90;
+        }
+        .item-info {
+            z-index: 90;
+        }
+        .comments {
+            z-index: 80;
+        }
+    }
+    &:nth-child(4n+2) {
+        .item-video {
+            z-index: 70;
+        }
+        .item-info {
+            z-index: 70;
+        }
+        .comments {
+            z-index: 60;
+        }
+    }
+    &:nth-child(4n+3) {
+        .item-video {
+            z-index: 50;
+        }
+        .item-info {
+            z-index: 50;
+        }
+        .comments {
+            z-index: 40;
+        }
+    }
+    &:nth-child(4n+4) {
+        .item-video {
+            z-index: 30;
+            //z-index: 80;
+        }
+        .item-info {
+            z-index: 30;
+            //z-index: 80;
+        }
+        .comments {
+            z-index: 20;
+            //z-index: 70;
+        }
+        &.last {
+            .item-video {
+                z-index: 80;
+            }
+            .item-info {
+                z-index: 80;
+            }
+            .comments {
+                z-index: 70;
+            }
+        }
+    }
+}
+
 </style>

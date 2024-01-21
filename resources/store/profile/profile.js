@@ -8,7 +8,9 @@ const state = {
     user: {},
     isFollower: false,
     canEditProfile: false,
-    isLoading: false
+    isLoading: false,
+    videos: [],
+    allowSound: false
 }
 
 const mutations = {
@@ -35,7 +37,16 @@ const mutations = {
     },
     [types.SET_IS_FOLLOWER](state, payload) {
         state.isFollower = payload
-    }
+    },
+    [types.SET_VIDEOS](state, payload) {
+        state.videos = payload
+    },
+    [types.SET_COMMENTS](state, payload) {
+        state.videos[payload.index].comments.push(...payload.comments)
+    },
+    [types.TOGGLE_SOUND](state) {
+        state.allowSound = !state.allowSound
+    },
 }
 
 const actions = {
@@ -57,7 +68,7 @@ const actions = {
 
             const response = await http.get(`profile/user/${payload.slug}`)
 
-            console.log(response)
+
             if (!response.data.user) {
                 // router.push('/')
                 return
@@ -92,6 +103,40 @@ const actions = {
             commit(types.DECREMENET_FOLLOWERS);
             commit(types.SET_IS_FOLLOWER, response.data.isFollower);
         }
+    },
+
+    async [types.GET_VIDEOS]({commit}, payload) {
+        const response = await http.get(`videos/${state.user.id}`, {
+            params: {
+                'per-page': payload.perPage,
+                page: payload.page,
+            }
+
+        })
+
+        if (response.status === 200) {
+            commit(types.SET_VIDEOS, response.data.data)
+        }
+
+    },
+
+    [types.INCREMENET_VIEWS]({}, payload) {
+        http.patch(`videos/views/${payload.videoId}`)
+    },
+
+    async [types.UPLOAD_COMMENTS]({commit, state}, payload) {
+        const response = await http.get(`videos/comments/${payload.videoId}`, {
+            params: {
+                'per-page': payload.perPage,
+                page: payload.page,
+            }
+        })
+        console.log(response)
+        if (response.status === 200) {
+
+            commit(types.SET_COMMENTS, {index: payload.index, comments: response.data.data});
+        }
+
     },
 }
 export default {

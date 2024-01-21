@@ -1,5 +1,6 @@
 <template>
-    <div
+    <router-link
+        :to="`/profile/${props.slug}`"
         :style="{'width': size, 'height': size, 'max-width': size, 'max-height': size}"
         class="group avatar shrink-0 flex-auto"
         :class="{'pulse': hasPulse}"
@@ -14,7 +15,7 @@
                 <PersonIcon viewBox="0 0 24 24" class="transition group-hover:scale-110 w-full h-full text-pink-600 absolute left-1/2 -translate-x-2/4 -bottom-2" />
             </div>
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script setup>
@@ -32,6 +33,10 @@ const props = defineProps({
     hasPulse: {
         type: Boolean,
         default: true
+    },
+    slug: {
+        type: String,
+        required: true
     }
 })
 </script>
