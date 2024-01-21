@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->string('path');
+            $table->string('name');
             $table->unsignedBigInteger('views');
 
             $table->foreignIdFor(User::class)

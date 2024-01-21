@@ -62,9 +62,9 @@ class User extends Authenticatable
         });
     }
 
-    public function posts(): HasMany
+    public function videos(): HasMany
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Video::class);
     }
 
     public function comments(): hasMany

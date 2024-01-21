@@ -3,12 +3,14 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Video>
  */
 class VideoFactory extends Factory
 {
+
     /**
      * Define the model's default state.
      *
@@ -16,10 +18,12 @@ class VideoFactory extends Factory
      */
     public function definition(): array
     {
+        $files = Storage::disk('public')->allFiles("videos");
+        $randomFile = $files[rand(0, count($files) - 1)];
         return [
             'user_id' => 1,
             'views' => 0,
-            'path' => 'storage/videos/01.mp4'
+            'name' => basename($randomFile)
         ];
     }
 }

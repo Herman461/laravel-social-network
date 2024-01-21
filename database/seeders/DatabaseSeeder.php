@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             $currentUser->followers()->attach($user);
         });
 
-        Video::factory(1)->create();
+        Video::factory(12)->create();
         Comment::factory(10)->create();
 
         $users->each(function($user) {

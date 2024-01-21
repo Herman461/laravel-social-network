@@ -38,21 +38,23 @@ Route::controller(ProfileController::class)->group(function () {
 
 Route::controller(VideoController::class)->group(function () {
     Route::get('/videos/stream/{name}', 'streamVideo');
-    Route::get('/videos/{video}', 'getVideo');
+    Route::get('/videos/{user}', 'getVideos'); // TODO: change url
+    Route::get('/videos/comments/{video}', 'getComments');
+
     Route::patch('/videos/views/{video}', 'incrementViews');
     Route::post('/videos/like/{video}', 'setLike');
 });
 
 
-Route::controller(PostController::class)
-    ->group(function () {
-
-        Route::post('/post/store', 'store')->name('post.store');
-        Route::patch('/post/{post}/views/', 'incrementViews')->name('patch.views.increment')->middleware('auth');
-        Route::get('/posts', 'getMany');
-        Route::get('/post', 'getOne');
-
-    });
+//Route::controller(PostController::class)
+//    ->group(function () {
+//
+//        Route::post('/post/store', 'store')->name('post.store');
+//        Route::patch('/post/{post}/views/', 'incrementViews')->name('patch.views.increment')->middleware('auth');
+//        Route::get('/posts', 'getMany');
+//        Route::get('/post', 'getOne');
+//
+//    });
 
 Route::controller(AuthContoller::class)
     ->group(function() {
