@@ -1,6 +1,14 @@
 <template>
-    <div @click="onAvatarClick" :class="{loading: state.isLoading}" class="group avatar pulse">
-        <input @change="onAvatarChange" ref="file" type="file" accept=".jpg,.jpeg,.png" class="hidden">
+    <div
+        @click="onAvatarClick"
+
+        :class="{
+            loading: state.isLoading,
+            fix: canEditProfile || bannerSrc,
+            big: !bannerSrc
+        }"
+        class="group avatar pulse relative">
+        <input v-if="canEditProfile" @change="onAvatarChange" ref="file" type="file" accept=".jpg,.jpeg,.png" class="hidden">
         <div class="pulse-item"></div>
         <div class="avatar-wrapper overflow-hidden">
             <div v-if="imageSrc && !state.isLoading" class="w-full h-full">
@@ -30,9 +38,13 @@ const state = reactive({
 })
 
 const imageSrc = computed(() => store.state.profile.user.avatar)
+const bannerSrc = computed(() => store.state.profile.user.banner)
+const canEditProfile = computed(() => store.state.profile.canEditProfile)
 
 const onAvatarClick = () => {
-    file.value.click()
+    if (canEditProfile && file.value) {
+        file.value.click()
+    }
 }
 const onAvatarChange = async (e) => {
     const image = e.target.files[0]
@@ -62,14 +74,19 @@ const onAvatarChange = async (e) => {
 
 <style lang="scss" scoped>
 .avatar {
-    @apply bg-neutral-900 translate-y-2/4
-    rounded-full h-36 w-36
-    absolute bottom-0
-    left-8
+    @apply bg-neutral-900
+    rounded-full h-40 w-40
+    shrink-0
     flex items-center justify-center
     cursor-pointer border-2
-    border-solid border-pink-900
-
+    border-solid border-pink-900;
+    &.fix {
+        @apply absolute bottom-0
+        left-8 translate-y-2/4;
+    }
+    &.big {
+        @apply h-60 w-60;
+    }
 }
 .pulse::before,
 .pulse::after {

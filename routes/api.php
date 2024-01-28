@@ -41,8 +41,10 @@ Route::controller(VideoController::class)->group(function () {
     Route::get('/videos/{user}', 'getVideos'); // TODO: change url
     Route::get('/videos/comments/{video}', 'getComments');
 
+
     Route::patch('/videos/views/{video}', 'incrementViews');
     Route::post('/videos/like/{video}', 'setLike');
+    Route::post('/videos/store', 'store');
 });
 
 

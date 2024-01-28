@@ -1,7 +1,7 @@
 <template>
-    <div @click="onBannerClick" class="w-full h-52 rounded-md group overflow-hidden">
-        <input @change="onBannerChange" ref="file" type="file" accept=".jpg,.jpeg,.png" class="hidden">
-        <div v-if="!bannerSrc || state.isLoading" class="transition flex items-center justify-center h-full w-full bg-black hover:bg-neutral-900 rounded-md border-dashed cursor-pointer border-2 border-pink-600">
+    <div v-if="bannerSrc || canEditProfile" @click="onBannerClick" class="w-full h-52 rounded-md group overflow-hidden">
+        <input v-if="canEditProfile" @change="onBannerChange" ref="file" type="file" accept=".jpg,.jpeg,.png" class="hidden">
+        <div v-if="canEditProfile && (!bannerSrc || state.isLoading)" class="transition flex items-center justify-center h-full w-full bg-black hover:bg-neutral-900 rounded-md border-dashed cursor-pointer border-2 border-pink-600">
             <PlusIcon v-if="!state.isLoading" class="transition group-hover:scale-110 text-pink-600 absolute top-1/2 left-1/2 -translate-y-2/4 -translate-x-2/4 w-20 h-20 group-hover:w-24 group-hover:h-24" viewBox="0 0 24 24"/>
             <BaseLoader v-if="state.isLoading" />
         </div>
@@ -23,6 +23,7 @@ const state = reactive({
     isLoading: false
 })
 const bannerSrc = computed(() => store.state.profile.user.banner)
+const canEditProfile = computed(() => store.state.profile.canEditProfile)
 
 const onBannerClick = () => {
     file.value.click()

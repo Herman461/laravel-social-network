@@ -3,17 +3,18 @@ import {http} from '../../js/axios.js'
 
 import router from "../../js/routes.js";
 import {deleteCookie} from "../../js/helpers.js";
+import store from "../store.js";
 
 const state = {
     user: {},
     isFollower: false,
     canEditProfile: false,
     isLoading: false,
-    videos: [],
-    allowSound: false
+    totalViews: 0,
 }
 
 const mutations = {
+
     [types.SET_AVATAR](state, payload) {
         state.user.avatar = payload
     },
@@ -38,14 +39,10 @@ const mutations = {
     [types.SET_IS_FOLLOWER](state, payload) {
         state.isFollower = payload
     },
-    [types.SET_VIDEOS](state, payload) {
-        state.videos = payload
-    },
-    [types.SET_COMMENTS](state, payload) {
-        state.videos[payload.index].comments.push(...payload.comments)
-    },
-    [types.TOGGLE_SOUND](state) {
-        state.allowSound = !state.allowSound
+
+
+    [types.SET_TOTAL_VIEWS](state, payload) {
+        state.totalViews = payload
     },
 }
 
@@ -62,13 +59,13 @@ const actions = {
         commit(types.SET_BANNER, response.data.banner)
     },
 
-    async [types.UPLOAD_USER]({commit, state}, payload) {
+    async [types.UPLOAD_USER]({commit, state, dispatch}, payload) {
         try {
             commit(types.TOGGLE_IS_LOADING)
 
             const response = await http.get(`profile/user/${payload.slug}`)
 
-
+            console.log(response)
             if (!response.data.user) {
                 // router.push('/')
                 return
@@ -77,13 +74,14 @@ const actions = {
             commit(types.SET_USER, response.data.user)
             commit(types.SET_IS_AUTH, response.data.canEditProfile)
             commit(types.SET_IS_FOLLOWER, response.data.isFollower)
+            commit(types.SET_TOTAL_VIEWS, response.data.totalViews)
             commit(types.TOGGLE_IS_LOADING)
         } catch (e) {
 
             // if (e.response.status === 401) {
             //     router.push('/login')
             // }
-            deleteCookie('access_token')
+            // deleteCookie('access_token')
         }
 
     },
@@ -105,40 +103,9 @@ const actions = {
         }
     },
 
-    async [types.GET_VIDEOS]({commit}, payload) {
-        const response = await http.get(`videos/${state.user.id}`, {
-            params: {
-                'per-page': payload.perPage,
-                page: payload.page,
-            }
 
-        })
-
-        if (response.status === 200) {
-            commit(types.SET_VIDEOS, response.data.data)
-        }
-
-    },
-
-    [types.INCREMENET_VIEWS]({}, payload) {
-        http.patch(`videos/views/${payload.videoId}`)
-    },
-
-    async [types.UPLOAD_COMMENTS]({commit, state}, payload) {
-        const response = await http.get(`videos/comments/${payload.videoId}`, {
-            params: {
-                'per-page': payload.perPage,
-                page: payload.page,
-            }
-        })
-        console.log(response)
-        if (response.status === 200) {
-
-            commit(types.SET_COMMENTS, {index: payload.index, comments: response.data.data});
-        }
-
-    },
 }
+
 export default {
     namespaced: true,
     state,

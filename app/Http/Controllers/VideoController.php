@@ -8,10 +8,12 @@ use App\Models\Like;
 use App\Models\User;
 use App\Models\Video;
 use App\VideoStream;
+
 use \Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
+use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class VideoController extends Controller
 {
@@ -68,5 +70,23 @@ class VideoController extends Controller
 
         return response(status: 400);
 
+    }
+
+    public function store(Request $request)
+    {
+
+        $filename = time().'.'.$request->video->extension();
+
+        $request->video->storeAs('public/videos/', $filename);
+
+//        if ($request->hasFile('video')) {
+//
+//        }
+        FFMpeg::fromDisk('public')
+            ->open("videos/$filename")
+            ->getFrameFromSeconds(0)
+            ->export()
+            ->toDisk("public")
+            ->save("images/videos/$filename.jpg");
     }
 }

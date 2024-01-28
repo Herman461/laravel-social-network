@@ -8,10 +8,10 @@ export default {
     theme: {
         extend: {
             colors: {
-                'violet': '#6100fc',
-                'violet-500': 'rgba(97, 0, 252, 0.5)',
-            },
-
+                'pink': {
+                    700: '#FF007A'
+                }
+            }
         },
     },
     plugins: [],

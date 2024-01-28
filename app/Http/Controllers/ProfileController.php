@@ -76,6 +76,13 @@ class ProfileController extends Controller
 
         $authUser = $token?->tokenable;
 
+        if ($authUser) {
+            $authUser['followers_count'] = (DB::table('author_follower')
+                ->whereAuthorId($authUser->id)
+                ->select(DB::raw('COUNT(*) as count'))
+                ->get())[0]->count;
+
+        }
         if (!$authUser && $slug === '') {
             return response()->json([
                 'message' => 'Unauthorized.'
@@ -88,7 +95,6 @@ class ProfileController extends Controller
             $canEditProfile = true;
         } else {
             $user = User::query()->where('slug', '=', $slug)->withCount('followers')->first();
-
             if (isset($authUser)) {
                 $isFollower = DB::table('author_follower')
                         ->whereAuthorId($user->id)
@@ -100,9 +106,13 @@ class ProfileController extends Controller
 
         $profileUser = $user ?? $authUser;
 
+        $totalViews = DB::table('videos')->where('user_id', '=', $profileUser->id)->sum('views');
+
+
+
         return (new UserResource($profileUser))
             ->additional(
-                ['canEditProfile' => isset($canEditProfile), 'isFollower' => $isFollower]
+                ['canEditProfile' => isset($canEditProfile), 'isFollower' => $isFollower, 'totalViews' => $totalViews]
             );
 
     }

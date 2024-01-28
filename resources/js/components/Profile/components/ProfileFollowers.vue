@@ -2,16 +2,16 @@
     <div class="followers flex flex-col flex-auto items-end">
         <div class="mb-4 inline-flex items-center">
             <div class="flex flex-col items-end mr-2">
-                <div class="text-lg leading-5 font-medium">{{followersCount}}</div>
-                <div class="text-white text-sm leading-1">Followers</div>
+                <div class="text-xl leading-5 font-medium">{{followersCount}}</div>
+                <div class="text-white leading-1">Followers</div>
             </div>
             <GroupPeople viewBox="0 0 26 26" width="30" height="30" class="text-pink-700" />
         </div>
-        <button v-if="!isFollower" @click="follow" type="button" class="group base-button relative rounded-lg">
+        <button v-if="!isFollower && !canEditProfile" @click="follow" type="button" class="group base-button relative rounded-lg">
             <span class="transition inline-flex justify-center align-center h-12 pl-6 pe-8 min-w-[150px] pt-2 pb-2 text-white text-lg rounded-lg">Follow</span>
         </button>
 
-        <button v-if="isFollower" @click="unfollow" type="button" class="transition group base-button base-button-dark relative rounded-lg">
+        <button v-if="isFollower && !canEditProfile" @click="unfollow" type="button" class="transition group base-button base-button-dark relative rounded-lg">
             <span class="transition inline-flex justify-center align-center h-12 pl-6 pe-8 min-w-[150px] pt-2 pb-2 text-white text-lg rounded-lg">
                 <span class="group-hover:hidden">Followed</span>
                 <span class="group-hover:block hidden">Unfollow</span>
@@ -28,6 +28,7 @@ import types from "../../../../store/profile/types.js";
 
 const followersCount = computed(() => store.state.profile.user.followers_count)
 const isFollower = computed(() => store.state.profile.isFollower)
+const canEditProfile = computed(() => store.state.profile.canEditProfile)
 
 const follow = () => {
     store.dispatch('profile/' + types.FOLLOW)
@@ -40,7 +41,7 @@ const unfollow = () => {
 <style lang="scss" scoped>
 .base-button {
     animation: pulse-button-shadow 1.5s linear infinite;
-    box-shadow: 0 0 0 0 rgba(#DB2777, .5);
+    box-shadow: 0 0 0 0 rgba(#FF007A, .5);
 }
 span {
     position: relative;
@@ -54,7 +55,7 @@ span {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #DB2777;
+    background: #FF007A;
     animation: pulse-button-scale 1.5s linear infinite;
 }
 .base-button-dark {
@@ -79,7 +80,7 @@ span {
 }
 .base-button:hover {
     animation: none;
-    box-shadow: 0 0 0 8px rgba(#DB2777, 0.1);
+    box-shadow: 0 0 0 8px rgba(#FF007A, 0.1);
 }
 
 @keyframes pulse-button-shadow {
@@ -88,11 +89,11 @@ span {
     }
     70% {
 
-        box-shadow: 0 0 0 10px rgba(#DB2777, 0);
+        box-shadow: 0 0 0 10px rgba(#FF007A, 0);
     }
     100% {
 
-        box-shadow: 0 0 0 0 rgba(#DB2777, 0);
+        box-shadow: 0 0 0 0 rgba(#FF007A, 0);
     }
 }
 @keyframes pulse-button-scale {

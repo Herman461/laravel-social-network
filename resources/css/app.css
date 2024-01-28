@@ -102,19 +102,230 @@ a {
 body {
     overflow-x: hidden;
 }
-*::-webkit-scrollbar {
+
+
+html::-webkit-scrollbar {
     width: 3px;
 }
-*::-webkit-scrollbar-track {
+html::-webkit-scrollbar-track {
     @apply bg-neutral-900;
     border-radius: 3px;
 }
-*::-webkit-scrollbar-thumb {
+html::-webkit-scrollbar-thumb {
     @apply bg-pink-700;
     border-radius: 3px;
 
 }
-* {
+html {
     scrollbar-width: thin;
-    scrollbar-color: #DB2777 #171717;
+    scrollbar-color: #FF007A #171717;
+}
+
+html.fullscreen [data-fullscreen-wrapper] {
+    display: -webkit-box !important;
+    display: block !important;
+    position: fixed;
+    scrollbar-width: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    /*overflow: hidden;*/
+    overflow: auto;
+    overflow-x: hidden;
+    -ms-scroll-snap-type: y mandatory;
+    scroll-snap-type: y mandatory;
+}
+html.fullscreen [data-fullscreen-wrapper]::-webkit-scrollbar {
+    display: none !important;
+}
+
+/*html.fullscreen .video-items__main {*/
+/*    min-height: auto !important;*/
+/*}*/
+
+html.fullscreen [data-fullscreen-item] {
+    height: 100%;
+    min-height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+html.fullscreen [data-fullscreen-item] {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+}
+html.fullscreen .videos {
+    padding: 0 !important;
+}
+
+html.fullscreen::-webkit-scrollbar {
+    display: none !important;
+}
+
+html.fullscreen {
+    scrollbar-width: none !important;
+}
+
+
+
+html.fullscreen .video-items__bottom {
+    display: none;
+}
+html.fullscreen .video-items__main {
+    height: 100% !important;
+}
+
+html.fullscreen .video-item {
+    padding: 0 !important;
+
+    display: flex;
+    justify-content: center;
+}
+html.fullscreen .item {
+
+}
+html.fullscreen .video-item .video {
+    padding: 0 !important;
+    height: 100vh;
+
+
+}
+html.fullscreen .video-item video {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: auto !important;
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*object-fit: contain;*/
+    /*object-position: center;*/
+}
+html.fullscreen .video-item video {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: auto !important;
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*object-fit: contain;*/
+    /*object-position: center;*/
+}
+
+
+html.fullscreen .item {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+html.fullscreen .feed {
+    padding: 0 !important;
+}
+
+
+
+    /*html.fullscreen .videos__banner {*/
+/*    width: 100%;*/
+/*    height: 100vh;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    max-width: none !important;*/
+/*}*/
+
+html.fullscreen::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 500;
+    background: #000;
+}
+
+
+
+html.fullscreen .video-items {
+    max-width: none !important;
+}
+
+/*html.fullscreen {*/
+/*    overflow: hidden;*/
+/*}*/
+
+/*body.default [data-fullscreen-item] {*/
+/*    top: 0 !important;*/
+/*    transform: none !important;*/
+/*}*/
+
+/*TODO: Перенести в шаблон с использованием tailwind */
+
+html.fullscreen .video-actions {
+    position: absolute;
+    top: 50%;
+    /*left: 50%;*/
+    transform: translate(0, -50%);
+    background: transparent;
+    padding-left: 0.75rem;
+}
+html.fullscreen .actions-top {
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    border-bottom: none;
+}
+html.fullscreen .actions-icon {
+    flex-direction: column;
+    margin-bottom: 1rem;
+    margin-right: 0;
+}
+html.fullscreen .actions-icon svg {
+    width: 32px;
+    height: 32px;
+}
+html.fullscreen .actions-icon span {
+    font-size: 18px;
+    margin-left: 0;
+    line-height: 1;
+}
+html.fullscreen .actions-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+html.fullscreen .actions-bottom-item {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+
+}
+html.fullscreen .actions-bottom-item:last-child {
+    margin-bottom: 0;
+}
+html.fullscreen .actions-fullscreen-icon {
+    position: relative;
+    left: -2px;
+}
+html.fullscreen .comments {
+    left: auto;
+    right: 0 !important;
+    transform: none !important;
+    z-index: 9999 !important;
+    max-width: 29%;
+}
+/*html.default .video-actions {*/
+/*    left: 0 !important;*/
+/*}*/
+
+.editable img {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    object-fit: contain;
+}
+html,
+body {
+    background: #000;
 }

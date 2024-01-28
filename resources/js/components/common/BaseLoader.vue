@@ -19,7 +19,7 @@
     position: absolute;
     width: 32px;
     height: 32px;
-    background: #DB2777;
+    background: #FF007A;
     animation: lds-heart 1.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 .lds-heart div:after,
@@ -29,7 +29,7 @@
     display: block;
     width: 32px;
     height: 32px;
-    background: #DB2777;
+    background: #FF007A;
 }
 .lds-heart div:before {
     left: -24px;
