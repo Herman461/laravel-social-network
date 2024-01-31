@@ -4,6 +4,7 @@ import posts from "./posts/posts.js";
 import auth from "./auth/auth.js";
 import profile from "./profile/profile.js";
 import videos from "./videos/videos.js";
+import home from "./home/home.js";
 
 const mutations = {
     SET_USER(state, payload) {
@@ -30,7 +31,8 @@ const store = createStore({
         posts,
         auth,
         profile,
-        videos
+        videos,
+        home
     }
 
 })

@@ -79,14 +79,19 @@ class VideoController extends Controller
 
         $request->video->storeAs('public/videos/', $filename);
 
-//        if ($request->hasFile('video')) {
-//
-//        }
+        // TODO: Очистить filename от расширения (mp4)
         FFMpeg::fromDisk('public')
             ->open("videos/$filename")
             ->getFrameFromSeconds(0)
             ->export()
             ->toDisk("public")
             ->save("images/videos/$filename.jpg");
+    }
+
+    public function getNewVideos(Request $request)
+    {
+        return Video::query()->take(16)->get();
+
+        return response(status: 400);
     }
 }

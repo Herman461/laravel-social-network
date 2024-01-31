@@ -1,58 +1,53 @@
 <template>
 
-        <div class="bg-black min-h-full min-h-screen pb-16">
-            <BaseHeader />
-            <BaseNotification />
-            <main class="md:container flex mx-auto pt-5">
-                <base-sidebar />
-                <div class="flex-auto ps-8" v-if="!isLoading">
-                    <div :class="{'profile-top': !bannerSrc}" class="relative">
-                        <ProfileBanner />
-                        <ProfileAvatar />
-                        <div v-if="!bannerSrc" class="info pt-6 flex pb-8 flex justify-between flex-auto">
-                            <div class="pl-4 self-end">
-                                <div class="text-white text-2xl mb-2">{{login}}</div>
-                                <div class="text-lg">Hello! I'm Kitty and I love cats. I'm sure you like my awesome videos 🔥</div>
+<BaseWrapper>
+    <template v-if="!isLoading">
+        <div :class="{'profile-top': !bannerSrc}" class="relative">
+            <ProfileBanner />
+            <ProfileAvatar />
+            <div v-if="!bannerSrc" class="info pt-6 flex pb-8 flex justify-between flex-auto">
+                <div class="pl-4 self-end">
+                    <div class="text-white text-2xl mb-2">{{login}}</div>
+                    <div class="text-lg">Hello! I'm Kitty and I love cats. I'm sure you like my awesome videos 🔥</div>
+                </div>
+                <div class="flex flex-col">
+                    <ProfileFollowers class="flex-auto"/>
+                    <div class="flex justify-between">
+                        <div class="inline-flex flex-col mr-4 last:mr-0">
+                            Views
+                            <div class="inline-flex">
+                                <span class="text-xl font-medium text-white mr-1">{{totalViews}}</span>
+                                <EyeIcon class="text-pink-700 self-end" width="30" height="30" viewBox="0 0 24 24" />
                             </div>
-                            <div class="flex flex-col">
-                                <ProfileFollowers class="flex-auto"/>
-                                <div class="flex justify-between">
-                                    <div class="inline-flex flex-col mr-4 last:mr-0">
-                                        Views
-                                        <div class="inline-flex">
-                                            <span class="text-xl font-medium text-white mr-1">{{totalViews}}</span>
-                                            <EyeIcon class="text-pink-700 self-end" width="30" height="30" viewBox="0 0 24 24" />
-                                        </div>
-                                    </div>
-                                    <div class="inline-flex flex-col mr-4 last:mr-0">
-                                        Likes
-                                        <div class="inline-flex">
-                                            <span class="text-xl font-medium text-white mr-1">52</span>
-                                            <FavoriteIcon class="text-pink-700 self-end" width="30" height="30" viewBox="0 0 24 24" />
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
+                        </div>
+                        <div class="inline-flex flex-col mr-4 last:mr-0">
+                            Likes
+                            <div class="inline-flex">
+                                <span class="text-xl font-medium text-white mr-1">52</span>
+                                <FavoriteIcon class="text-pink-700 self-end" width="30" height="30" viewBox="0 0 24 24" />
                             </div>
 
                         </div>
                     </div>
-                    <div v-if="bannerSrc" class="info pt-6 flex pb-8 border-solid border-b-2 border-pink-700">
-                        <div class="pl-48 text-white text-lg">{{login}}</div>
-                        <ProfileFollowers />
-                    </div>
-                    <ProfileFeed />
-                </div>
-            </main>
-        </div>
 
+
+                </div>
+
+            </div>
+        </div>
+        <div v-if="bannerSrc" class="info pt-6 flex pb-8 border-solid border-b-2 border-pink-700">
+            <div class="pl-48 text-white text-lg">{{login}}</div>
+            <ProfileFollowers />
+        </div>
+        <ProfileFeed />
+    </template>
+</BaseWrapper>
 </template>
 
 <script setup>
 
-import BaseHeader from "../Header/Header.vue";
+
+
 import {computed} from "vue";
 
 import types from "../../../store/profile/types.js";
@@ -71,6 +66,7 @@ import store from "../../../store/store.js";
 import ProfileFollowers from "./components/ProfileFollowers.vue";
 import ProfileFeed from "./components/ProfileFeed.vue";
 import BaseNotification from "../common/BaseNotification.vue";
+import BaseWrapper from "../common/BaseWrapper.vue";
 
 
 

@@ -1,11 +1,13 @@
 <template>
     <component
+        :type="props.type"
         :disabled="props.disabled"
         :is="props.component"
         class="base-button"
         :class="{disabled: props.disabled}"
     >
         {{ props.text }}
+        <slot name="icon"></slot>
     </component>
 </template>
 
@@ -18,6 +20,10 @@ const props = defineProps({
     component: {
         type: String,
         default: 'button'
+    },
+    type: {
+        type: String,
+
     },
     disabled: {
         type: Boolean,

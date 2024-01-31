@@ -6,7 +6,15 @@ import {deleteCookie} from "../../js/helpers.js";
 import store from "../store.js";
 
 const state = {
-    videos: [],
+    videos: {
+        'new-home': [],
+        'trending-home': [],
+        'profile': []
+    },
+    unloadedVideos: {
+      'new-home': [],
+      'trending-home': [],
+    },
     allowSound: false,
     videoSpeed: 1.0,
     isFullscreen: false,
@@ -24,10 +32,11 @@ const mutations = {
 
 
     [types.SET_VIDEOS](state, payload) {
-        state.videos.push(...payload)
+
+        state.videos[payload.category].push(...payload.videos)
     },
     [types.SET_COMMENTS](state, payload) {
-        state.videos[payload.index].comments.push(...payload.comments)
+        state.videos[payload.category][payload.index].comments.push(...payload.comments)
     },
     [types.TOGGLE_SOUND](state) {
         state.allowSound = !state.allowSound
@@ -38,10 +47,24 @@ const mutations = {
     [types.TOGGLE_IS_FULLSCREEN](state) {
         state.isFullscreen = !state.isFullscreen
     },
+    [types.TOGGLE_SHOW_VIDEOS](state, payload) {
+        if (state.unloadedVideos[payload.category].length > 0) {
+            state.videos[payload.category].push(...state.unloadedVideos[payload.category])
+            state.unloadedVideos[payload.category] = []
+        } else {
+            if (state.videos[payload.category].length > 5) {
+                state.unloadedVideos[payload.category] = state.videos[payload.category].slice(5)
+                state.videos[payload.category] = state.videos[payload.category].slice(0, 5)
+            }
+        }
+    },
     [types.SET_LAST_PAGE](state, payload) {
         state.lastPage = payload
+    },
+    [types.SET_HOME_VIDEOS](state, payload) {
+        state.videos[payload.category].push(...payload.videos.slice(0, 5))
+        state.unloadedVideos[payload.category].push(...payload.videos.slice(5))
     }
-
 }
 
 const actions = {
@@ -58,7 +81,7 @@ const actions = {
         })
 
         if (response.status === 200) {
-            commit(types.SET_VIDEOS, response.data.data)
+            commit(types.SET_VIDEOS, {videos: response.data.data, category: payload.category})
 
             if (!state.lastPage) {
                 commit(types.SET_LAST_PAGE, response.data.meta.last_page)
@@ -78,13 +101,31 @@ const actions = {
                 page: payload.page,
             }
         })
-        console.log(response)
         if (response.status === 200) {
 
-            commit(types.SET_COMMENTS, {index: payload.index, comments: response.data.data});
+            commit(types.SET_COMMENTS,
+                {
+                    index: payload.index,
+                    comments: response.data.data,
+                    category: payload.category
+                });
         }
 
     },
+    async [types.GET_NEW_VIDEOS]({commit}, payload) {
+        const response = await http.get("home/videos/new")
+
+
+        commit(types.SET_HOME_VIDEOS, {videos: response.data.data, category: payload.category})
+    },
+
+    async [types.GET_TRENDING_VIDEOS]({commit}, payload) {
+        const response = await http.get("home/videos/trending")
+
+
+        commit(types.SET_HOME_VIDEOS, {videos: response.data.data, category: payload.category})
+    },
+
 }
 
 export default {

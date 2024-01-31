@@ -1,30 +1,24 @@
 <template>
-    <div class="bg-black min-h-full min-h-screen">
-        <base-header />
-
-        <main class="md:container flex mx-auto pt-5">
-            <base-sidebar />
-            <div class="flex-auto ps-8">
-                <FollowerItem class="mb-6" />
-                <FollowerItem class="mb-6" />
-                <FollowerItem class="mb-6" />
-                <FollowerItem class="mb-6" />
-                <FollowerItem class="mb-6" />
-                <FollowerItem class="mb-6" />
-            </div>
-        </main>
-    </div>
+    <BaseWrapper>
+        <div class="flex-auto ps-8">
+            <FollowerItem class="mb-6" />
+            <FollowerItem class="mb-6" />
+            <FollowerItem class="mb-6" />
+            <FollowerItem class="mb-6" />
+            <FollowerItem class="mb-6" />
+            <FollowerItem class="mb-6" />
+        </div>
+    </BaseWrapper>
 
 </template>
 
 <script setup>
 
-import BaseHeader from "../Header/Header.vue";
 import {computed} from "vue";
 import types from "../../../store/posts/types.js";
 
-import BaseSidebar from "../common/BaseSidebar.vue";
 import FollowerItem from "../common/FollowerItem.vue";
+import BaseWrapper from "../common/BaseWrapper.vue";
 
 
 </script>

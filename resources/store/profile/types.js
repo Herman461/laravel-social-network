@@ -13,4 +13,5 @@ export default {
     FOLLOW: 'FOLLOW',
     UNFOLLOW: 'UNFOLLOW',
     SET_TOTAL_VIEWS: 'SET_TOTAL_VIEWS',
+
 }

@@ -21,9 +21,11 @@ class VideoFactory extends Factory
         $files = Storage::disk('public')->allFiles("videos");
         $randomFile = $files[rand(0, count($files) - 1)];
         return [
-            'user_id' => 1,
-            'views' => 0,
-            'name' => basename($randomFile)
+            'user_id' => random_int(1, 10),
+            'views' => random_int(0, 100000),
+            'name' => basename($randomFile),
+            'preview' => '/storage/images/videos/1706201816.jpg', //TODO: убрать статическую строку
+            'created_at' => fake()->dateTimeThisMonth()->format('Y-m-d H:i:s')
         ];
     }
 }

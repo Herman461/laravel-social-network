@@ -17,7 +17,7 @@ import Speed_2_0_Icon from '../../../../../images/icons/speed-2-0.svg?component'
 import {computed} from "vue";
 import store from "../../../../../store/store.js";
 
-const videoSpeed = computed(() => store.state.profile.videoSpeed)
+const videoSpeed = computed(() => store.state.videos.videoSpeed)
 </script>
 
 <style lang="scss" scoped>

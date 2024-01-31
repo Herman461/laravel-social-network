@@ -1,5 +1,5 @@
 <template>
-    <div data-fullscreen-item :class="{last: state.toLeftSide}" @mouseleave="stopVideo" class="item pl-2 pr-2 basis-1/4 mb-4 relative">
+    <div data-fullscreen-item :class="{last: state.toLeftSide}" @mouseleave="stopVideo" class="item pl-2 pr-2 mb-4 relative">
 
         <div class="video-item bg-neutral-900 pb-2 relative rounded-t-md">
             <div class="backdrop">
@@ -102,6 +102,10 @@ const props = defineProps({
         type: Number,
         required: true
     },
+    category: {
+        type: String,
+        required: true
+    }
 })
 
 
@@ -191,7 +195,14 @@ const toggleComments = () => {
 
     if (!state.hasComments) {
         state.hasComments = true
-        store.dispatch('videos/' + types.UPLOAD_COMMENTS, {index: props.index, videoId: props.video.video.id, page: 1, perPage: 10})
+        store.dispatch(
+            'videos/' + types.UPLOAD_COMMENTS,
+            {
+                index: props.index,
+                videoId: props.video.video.id,
+                page: 1, perPage: 10,
+                category: props.category
+            })
     }
     if (props.index !== 0 && (props.index + 1) % 4 === 0) {
         if (state.toLeftSide) {

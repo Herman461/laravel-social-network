@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\AuthContoller;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VideoController;
@@ -40,6 +41,7 @@ Route::controller(VideoController::class)->group(function () {
     Route::get('/videos/stream/{name}', 'streamVideo');
     Route::get('/videos/{user}', 'getVideos'); // TODO: change url
     Route::get('/videos/comments/{video}', 'getComments');
+    Route::get('/videos/new', 'getNewVideos');
 
 
     Route::patch('/videos/views/{video}', 'incrementViews');
@@ -47,16 +49,13 @@ Route::controller(VideoController::class)->group(function () {
     Route::post('/videos/store', 'store');
 });
 
-
-//Route::controller(PostController::class)
-//    ->group(function () {
-//
-//        Route::post('/post/store', 'store')->name('post.store');
-//        Route::patch('/post/{post}/views/', 'incrementViews')->name('patch.views.increment')->middleware('auth');
-//        Route::get('/posts', 'getMany');
-//        Route::get('/post', 'getOne');
-//
-//    });
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/home/videos/new', 'getNewVideos');
+    Route::get('/home/videos/trending', 'getTrendingVideos');
+    Route::get('/home/tags/trending', 'getTrendingTags');
+    Route::get('/home/creators/trending', 'getTrendingCreators');
+    Route::get('/home/creators/newly', 'getNewlyCreators');
+});
 
 Route::controller(AuthContoller::class)
     ->group(function() {
@@ -65,10 +64,6 @@ Route::controller(AuthContoller::class)
         Route::get('/auth/get', 'get');
 });
 
-//Route::get('/profile/user/{slug}', function ($slug) {
-//    $user = User::whereSlug($slug)->get();
-//    return $user;
-//});
 
 Route::post('/auth/check', function () {
     return response()->json(['status' => 'Authorized'], 200);

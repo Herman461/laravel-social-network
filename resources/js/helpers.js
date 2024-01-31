@@ -35,3 +35,5 @@ export function deleteCookie(name) {
         'max-age': -1
     })
 }
+
+
